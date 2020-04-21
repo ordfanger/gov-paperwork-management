@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 @RestController
-public class AuthController {
+public class ManagementController {
 
     @GetMapping(path = "/customScope")
     @PreAuthorize("hasAuthority('SCOPE_customScope')")

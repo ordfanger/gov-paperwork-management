@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionHandler extends Exception {
 
-    @ExceptionHandler(value = {Exception.class})
+    @ExceptionHandler(value = {Exception.class, RuntimeException.class})
     public void APIExceptionHandler(Exception e) {
         log.info(e.getLocalizedMessage());
     }
