@@ -11,5 +11,6 @@ public class GlobalExceptionHandler extends Exception {
     @ExceptionHandler(value = {Exception.class, RuntimeException.class})
     public void APIExceptionHandler(Exception e) {
         log.info(e.getLocalizedMessage());
+        throw new RuntimeException(e.getLocalizedMessage());
     }
 }
