@@ -7,12 +7,6 @@
 #    org:
 #      springframework:
 #        security: DEBUG
-spring:
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: https://dev-407670.okta.com/oauth2/default
 
 #  cloud:
 #    consul:

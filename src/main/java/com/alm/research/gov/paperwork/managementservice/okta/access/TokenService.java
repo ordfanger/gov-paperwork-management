@@ -20,7 +20,7 @@ public class TokenService {
                 .add("grant_type", "password")
                 .add("username", creds.getUsername())
                 .add("password", creds.getPassword())
-                .add("scope", "openid email offline_access")
+                .add("scope", "openid profile email offline_access")
                 .build();
 
         Request request = new Request.Builder()
