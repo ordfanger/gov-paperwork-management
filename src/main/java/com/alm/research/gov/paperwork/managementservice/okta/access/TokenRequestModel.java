@@ -1,6 +1,7 @@
 package com.alm.research.gov.paperwork.managementservice.okta.access;
 
 import com.alm.research.gov.paperwork.managementservice.okta.access.validators.Conditional;
+import com.alm.research.gov.paperwork.managementservice.okta.access.validators.ValueOfEnum;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -12,6 +13,7 @@ public class TokenRequestModel {
     private String username;
     private String password;
 
+    @ValueOfEnum(enumClass = GrantTypes.class)
     @NotBlank(message = "grantType is missing in request body.")
     private String grantType;
 

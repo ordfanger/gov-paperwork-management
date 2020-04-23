@@ -37,12 +37,12 @@ public class TokenService {
 
         params.put("grant_type", grantType);
 
-        if (GrantTypes.PASSWORD.value.equals(grantType)) {
+        if (GrantTypes.password.value.equals(grantType)) {
             params.put("username", creds.getUsername());
             params.put("password", creds.getPassword());
         }
 
-        if (GrantTypes.REFRESH_TOKEN.value.equals(grantType)) {
+        if (GrantTypes.refresh_token.value.equals(grantType)) {
             params.put("refresh_token", creds.getRefreshToken());
         }
 
