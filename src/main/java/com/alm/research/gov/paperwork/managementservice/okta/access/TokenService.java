@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class TokenService {
@@ -29,21 +31,30 @@ public class TokenService {
         this.basicToken = buildBasicToken();
     }
 
-    private String buildBasicToken() {
-        String base64TokenString = environment.getProperty("gov.paperwork.okta-client-id")
-                + ":" + environment.getProperty("gov.paperwork.okta-client-secret");
+    public TokenResponseModel getAccessToken(TokenRequestModel creds) throws IOException {
+        Map<String, String> params = new HashMap<>();
+        params.put("grant_type", "password");
+        params.put("username", creds.getUsername());
+        params.put("password", creds.getPassword());
 
-       return Base64.getEncoder().encodeToString(base64TokenString.getBytes());
+        return makeCall(params);
     }
 
-    public TokenResponseModel getAccessToken(TokenRequestModel creds) throws IOException {
+    public TokenResponseModel getAccessTokenByRefreshToken(String refreshToken) throws IOException {
+        Map<String, String> params = new HashMap<>();
+        params.put("grant_type", "refresh_token");
+        params.put("refresh_token", refreshToken);
 
-        RequestBody body = new FormBody.Builder()
-                .add("grant_type", "password")
-                .add("username", creds.getUsername())
-                .add("password", creds.getPassword())
-                .add("scope", "openid profile email offline_access")
-                .build();
+        return makeCall(params);
+    }
+
+    private TokenResponseModel makeCall(Map<String, String> params) throws IOException {
+        FormBody.Builder builder = new FormBody.Builder()
+                .add("scope", "openid profile email offline_access");
+
+        params.forEach(builder::add);
+
+        RequestBody body = builder.build();
 
         Request request = new Request.Builder()
                 .url(oktaBaseUrl + "oauth2/default/v1/token")
@@ -58,5 +69,12 @@ public class TokenService {
 
             return objectMapper.readValue(response.body().bytes(), TokenResponseModel.class);
         }
+    }
+
+    private String buildBasicToken() {
+        String base64TokenString = environment.getProperty("gov.paperwork.okta-client-id")
+                + ":" + environment.getProperty("gov.paperwork.okta-client-secret");
+
+        return Base64.getEncoder().encodeToString(base64TokenString.getBytes());
     }
 }

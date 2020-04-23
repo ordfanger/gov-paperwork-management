@@ -17,7 +17,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/v1/token").anonymous()
+                .antMatchers(HttpMethod.POST, "/v1/token/**").anonymous()
                 .antMatchers("/actuator/**").permitAll()
                 .anyRequest()
                     .authenticated()
