@@ -33,17 +33,18 @@ public class TokenService {
 
     public TokenResponseModel getAccessToken(TokenRequestModel creds) throws IOException {
         Map<String, String> params = new HashMap<>();
-        params.put("grant_type", "password");
-        params.put("username", creds.getUsername());
-        params.put("password", creds.getPassword());
+        String grantType = creds.getGrantType();
 
-        return makeCall(params);
-    }
+        params.put("grant_type", grantType);
 
-    public TokenResponseModel getAccessTokenByRefreshToken(String refreshToken) throws IOException {
-        Map<String, String> params = new HashMap<>();
-        params.put("grant_type", "refresh_token");
-        params.put("refresh_token", refreshToken);
+        if (GrantTypes.PASSWORD.value.equals(grantType)) {
+            params.put("username", creds.getUsername());
+            params.put("password", creds.getPassword());
+        }
+
+        if (GrantTypes.REFRESH_TOKEN.value.equals(grantType)) {
+            params.put("refresh_token", creds.getRefreshToken());
+        }
 
         return makeCall(params);
     }

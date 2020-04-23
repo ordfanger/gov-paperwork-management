@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.io.IOException;
-import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/v1")
@@ -26,16 +26,7 @@ public class ManagementController {
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<TokenResponseModel> getToken(@RequestBody TokenRequestModel creds) throws IOException {
+    public ResponseEntity<TokenResponseModel> getToken(@Valid @RequestBody TokenRequestModel creds) throws IOException {
         return ResponseEntity.ok(tokenService.getAccessToken(creds));
     }
-
-    @PostMapping(
-            value = "/token/refresh"
-    )
-    public ResponseEntity<TokenResponseModel> getTokenByRefreshToken(@RequestBody Map<String, String> body) throws IOException {
-        String refreshToken = body.get("refresh_token");
-        return ResponseEntity.ok(tokenService.getAccessTokenByRefreshToken(refreshToken));
-    }
-
 }
