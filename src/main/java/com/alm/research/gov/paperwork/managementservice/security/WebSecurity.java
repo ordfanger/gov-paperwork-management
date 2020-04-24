@@ -19,6 +19,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/v1/token/**").anonymous()
                 .antMatchers("/actuator/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/swagger-ui/**", "/v3/api-docs/**", "/api-docs/**", "/webjars/**").permitAll()
                 .anyRequest()
                     .authenticated()
                     .and()

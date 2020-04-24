@@ -12,3 +12,10 @@
 #    consul:
 #      discovery:
 #        health-check-interval: 1m
+
+springdoc:
+  swagger-ui:
+    path: /api-docs
+
+server:
+  forward-headers-strategy: framework
